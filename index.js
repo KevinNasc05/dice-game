@@ -1,61 +1,44 @@
-let playerOne = 1;
-let playerTwo = 2;
+const PLAYER_ONE = 1;
+const PLAYER_TWO = 2;
 
-let diceNumberPlayerOne = Math.floor((Math.random() * 6)) + 1;
-let diceNumberPlayerTwo = Math.floor((Math.random() * 6)) + 1;
+const dices = {
+  [PLAYER_ONE]: document.querySelector(".player.one .dice"),
+  [PLAYER_TWO]: document.querySelector(".player.two .dice")
+};
 
-drawDice(playerOne, diceNumberPlayerOne);
-drawDice(playerTwo, diceNumberPlayerTwo);
+const visibleCells = {
+  1: ["five"],
+  2: ["three", "seven"],
+  3: ["three", "five", "seven"],
+  4: ["one", "three", "seven", "nine"],
+  5: ["one", "three", "five", "seven", "nine"],
+  6: ["one", "three", "four", "six", "seven", "nine"]
+};
 
-let titlePage = document.querySelector("h1");
+const title = document.querySelector("h1");
 
-if (diceNumberPlayerOne > diceNumberPlayerTwo) {
-  titlePage.textContent = "Player 1 Wins!";
-} else if (diceNumberPlayerOne < diceNumberPlayerTwo) {
-  titlePage.textContent = "Player 2 Wins!";
-} else {
-  titlePage.textContent = "Draw!";
+const diceNumberPlayerOne = randomDice();
+const diceNumberPlayerTwo = randomDice();
+
+drawDice(PLAYER_ONE, diceNumberPlayerOne);
+drawDice(PLAYER_TWO, diceNumberPlayerTwo);
+
+title.textContent = winnerMessage(diceNumberPlayerOne, diceNumberPlayerTwo);
+
+function randomDice() {
+  return Math.floor((Math.random() * 6)) + 1;
 }
 
 function drawDice(playerNumber, diceNumber) {
-  let playerCssSelector =
-    playerNumber === playerOne
-      ? ".player.one > .dice"
-      : ".player.two > .dice";
+  visibleCells[diceNumber].forEach(className => {
+    dices[playerNumber]
+    .querySelector(`.${className}`)
+    .classList.remove("invisible");
+  });
+}
 
-  switch(diceNumber) {
-    case 1:
-      document.querySelector(playerCssSelector + "> .one").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .three").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .four").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .six").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .seven").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .nine").classList.add("invisible");
-      break;
-    case 2:
-      document.querySelector(playerCssSelector + "> .one").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .four").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .five").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .six").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .nine").classList.add("invisible");
-      break;
-    case 3:
-      document.querySelector(playerCssSelector + "> .one").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .four").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .six").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .nine").classList.add("invisible");
-      break;
-    case 4:
-      document.querySelector(playerCssSelector + "> .four").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .five").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .six").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .eight").classList.add("invisible");
-      break;
-    case 5:
-      document.querySelector(playerCssSelector + "> .four").classList.add("invisible");
-      document.querySelector(playerCssSelector + "> .six").classList.add("invisible");
-      break;
-    case 6:
-      document.querySelector(playerCssSelector + "> .five").classList.add("invisible");
-  }
+function winnerMessage(diceNumberPlayerOne, diceNumberPlayerTwo) {
+  if (diceNumberPlayerOne > diceNumberPlayerTwo) return "Player 1 Wins!";
+  if (diceNumberPlayerOne < diceNumberPlayerTwo) return "Player 2 Wins!";
+  return "Draw!";
 }

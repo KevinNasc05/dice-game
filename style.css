@@ -4,15 +4,17 @@
   box-sizing: border-box;
 }
 
-h1 { font-size: 4rem }
-p { font-size: 1.5rem }
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+p { font-size: clamp(1rem, 3vw, 1.5rem); }
 
 body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 100vh;
   gap: 0.5rem;
+
+  min-height: 100dvh;
+
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
@@ -33,17 +35,19 @@ main {
 
 .dice {
   display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-  height: 16rem;
-  width: 16rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  width: min(16rem, 40vw);
+  aspect-ratio: 1;
+
   background-color: black;
   border-radius: 1rem;
 }
 
 .cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 }
 
 .circle {
